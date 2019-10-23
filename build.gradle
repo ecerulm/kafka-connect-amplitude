@@ -23,13 +23,15 @@ dependencies {
 }
 
 task buildZip(type: Zip) {
-    from compileJava
-    from processResources
-    into('lib') {
-        from configurations.runtimeClasspath
-    }
-    into('lib') {
-        from file("$buildDir/libs/kafka-amplitude-connector-1.0-SNAPSHOT.jar")
+    into('kafka-connector-amplitude') {
+        from compileJava
+        from processResources
+        into('lib') {
+            from configurations.runtimeClasspath
+        }
+        into('lib') {
+            from file("$buildDir/libs/kafka-amplitude-connector-1.0-SNAPSHOT.jar")
+        }
     }
 }
 
