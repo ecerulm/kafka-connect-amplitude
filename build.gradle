@@ -53,3 +53,4 @@ task buildTgz(type: Tar) {
 
 
 buildZip.dependsOn jar
+buildTgz.dependsOn jar
