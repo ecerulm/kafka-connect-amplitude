@@ -1,3 +1,5 @@
+import java.util.zip.GZIPInputStream
+
 plugins { // https://imperceptiblethoughts.com/shadow/getting-started/#default-java-groovy-tasks
     id 'com.github.johnrengelman.shadow' version '5.0.0'
     id 'java'
@@ -30,9 +32,24 @@ task buildZip(type: Zip) {
             from configurations.runtimeClasspath
         }
         into('lib') {
-            from file("$buildDir/libs/kafka-amplitude-connector-1.0-SNAPSHOT.jar")
+            from file(jar.archiveFile)
         }
     }
 }
+
+task buildTgz(type: Tar) {
+    compression = Compression.GZIP
+    into('kafka-connector-amplitude') {
+        from compileJava
+        from processResources
+        into('lib') {
+            from configurations.runtimeClasspath
+        }
+        into('lib') {
+            from file(jar.archiveFile)
+        }
+    }
+}
+
 
 buildZip.dependsOn jar
